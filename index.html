@@ -1292,18 +1292,47 @@ document.querySelectorAll('.fb-marquee').forEach(function(m){ m.innerHTML += m.i
   overlay.addEventListener('click',function(e){ if(e.target===overlay) close(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
 
-  // Desktop: mouse saindo pelo topo da janela
-  document.addEventListener('mouseleave',function(e){ if(e.clientY<=0) open(); });
+  // Desktop: mouse saindo pela borda superior (mouseout com relatedTarget nulo é o mais confiável)
+  document.addEventListener('mouseout',function(e){
+    if(!e.relatedTarget && e.clientY<=10) open();
+  });
+  document.documentElement.addEventListener('mouseleave',function(e){
+    if(e.clientY<=10) open();
+  });
 
-  // Mobile: botão voltar do navegador
-  history.pushState({exitIntent:true},'');
-  window.addEventListener('popstate',function(e){
+  // Mobile: botão voltar. O Chrome só respeita entradas de histórico criadas
+  // depois de uma interação do usuário, então empilhamos no primeiro toque/rolagem.
+  var pushed=false;
+  function armBack(){
+    if(pushed) return;
+    pushed=true;
+    history.pushState({exitIntent:true},'');
+  }
+  ['touchstart','click','scroll','keydown'].forEach(function(ev){
+    window.addEventListener(ev,armBack,{once:true,passive:true});
+  });
+  window.addEventListener('popstate',function(){
     if(!shown){ open(); history.pushState({exitIntent:true},''); }
   });
 
-  // Mobile: fallback por inatividade após rolar boa parte da página (45s)
+  // Mobile: rolagem rápida pra cima (lead indo à barra de endereço / abas)
+  var lastY=window.scrollY, lastT=Date.now();
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY, t=Date.now();
+    if(matchMedia('(pointer:coarse)').matches && lastY-y>600 && t-lastT<400 && y<300) open();
+    lastY=y; lastT=t;
+  },{passive:true});
+
+  // Ao trocar de aba/app e voltar, mostra o pop-up
+  document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState==='visible' && hidden){ open(); }
+    if(document.visibilityState==='hidden'){ hidden=true; }
+  });
+  var hidden=false;
+
+  // Reserva: 45s na página depois de rolar boa parte dela
   setTimeout(function(){
-    if(!shown && window.scrollY>document.body.scrollHeight*0.4 && matchMedia('(pointer:coarse)').matches) open();
+    if(!shown && window.scrollY>document.body.scrollHeight*0.4) open();
   },45000);
 })();
 </script>
