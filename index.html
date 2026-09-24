@@ -1350,12 +1350,26 @@ document.querySelectorAll('.fb-marquee').forEach(function(m){ m.innerHTML += m.i
 })();
 </script>
 <script>
-document.querySelectorAll('a[href*="pay.cakto.com.br"]').forEach(function(a){
-  a.addEventListener('click',function(){
-    var v=a.classList.contains('exit-cta')?22.90:29.90;
-    try{ if(window.ttq) ttq.track('InitiateCheckout',{value:v,currency:'BRL',content_type:'product',content_name:'Sabores na Air Fryer'}); }catch(e){}
+(function(){
+  function tt(ev,p){ try{ if(window.ttq) ttq.track(ev,p||{}); }catch(e){} }
+  function prod(v){ return {value:v,currency:'BRL',content_type:'product',contents:[{content_id:'sabores-air-fryer-200',content_name:'Sabores na Air Fryer - 200 Receitas',quantity:1,price:v}]}; }
+  // ViewContent: quando a oferta aparece na tela (uma vez)
+  var of=document.getElementById('oferta'), vc=false;
+  if(of && 'IntersectionObserver' in window){
+    new IntersectionObserver(function(en,o){ en.forEach(function(x){ if(x.isIntersecting && !vc){ vc=true; tt('ViewContent',prod(29.90)); o.disconnect(); } }); },{threshold:0.3}).observe(of);
+  }
+  // ClickButton: botões verdes que levam à oferta
+  document.querySelectorAll('a[href="#oferta"]').forEach(function(a){
+    a.addEventListener('click',function(){ tt('ClickButton',{content_name:(a.textContent||'').trim().slice(0,60)}); });
   });
-});
+  // AddToCart + InitiateCheckout: botões que vão para a Cakto
+  document.querySelectorAll('a[href*="pay.cakto.com.br"]').forEach(function(a){
+    a.addEventListener('click',function(){
+      var p=prod(a.classList.contains('exit-cta')?22.90:29.90);
+      tt('AddToCart',p); tt('InitiateCheckout',p);
+    });
+  });
+})();
 </script>
 </body>
 </html>
