@@ -1353,6 +1353,8 @@ document.querySelectorAll('.fb-marquee').forEach(function(m){ m.innerHTML += m.i
 (function(){
   function tt(ev,p){ try{ if(window.ttq) ttq.track(ev,p||{}); }catch(e){} }
   function prod(v){ return {value:v,currency:'BRL',content_type:'product',contents:[{content_id:'sabores-air-fryer-200',content_name:'Sabores na Air Fryer - 200 Receitas',quantity:1,price:v}]}; }
+  // Ativação manual do evento de compra: só dispara abrindo o site com ?ativar_compra=1
+  if(/[?&]ativar_compra=1/.test(location.search)){ tt('CompletePayment',prod(29.90)); }
   // ViewContent: quando a oferta aparece na tela (uma vez)
   var of=document.getElementById('oferta'), vc=false;
   if(of && 'IntersectionObserver' in window){
