@@ -964,8 +964,8 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
       </div>
       <hr class="oferta-divider">
       <div class="oferta-de">Hoje, s&oacute; hoje:</div>
-      <div class="oferta-price">por 4x de <span style="white-space:nowrap">R$ 9,09</span></div>
-      <div class="oferta-avista">OU R$ 29,90 À VISTA</div>
+      <div class="oferta-price">por apenas <span style="white-space:nowrap">R$ 12,90</span></div>
+      <div class="oferta-avista">PAGAMENTO ÚNICO À VISTA</div>
       <a href="https://pay.cakto.com.br/mfqc9gr_1119745" rel="noopener" class="btn btn-ambar btn-pulse">SIM, QUERO ECONOMIZAR AGORA →</a>
       <div class="oferta-validade">PROMOÇÃO VÁLIDA ATÉ <span id="promoDate">04/06/2026</span></div>
     </div>
@@ -1262,7 +1262,7 @@ document.querySelectorAll('.fb-marquee').forEach(function(m){ m.innerHTML += m.i
     <img src="img/oferta-mockup-dispositivos.webp" alt="Sabores na Air Fryer - 200 Receitas" class="exit-img">
     <h3 id="exit-title">Não perca as 200 receitas + 6 bônus</h3>
     <p class="exit-sub">Acesso completo no App + PDF, com lista de compras, temperos, molhos, cardápio mensal e mais. Valor total <s>R$ 197</s>.</p>
-    <div class="exit-price">por apenas <b>R$ 22,90</b><small>À VISTA · OFERTA ÚNICA DE SAÍDA</small></div>
+    <div class="exit-price">por apenas <b>R$ 9,90</b><small>À VISTA · OFERTA ÚNICA DE SAÍDA</small></div>
     <a href="https://pay.cakto.com.br/juwh4jz_1122284" rel="noopener" class="btn btn-ambar btn-pulse exit-cta">SIM, QUERO AS RECEITAS →</a>
     <a href="#" id="exit-decline" class="exit-decline">Não, obrigado(a)</a>
     <div class="exit-guar">🛡️ 7 dias de garantia — risco zero</div>
@@ -1354,11 +1354,11 @@ document.querySelectorAll('.fb-marquee').forEach(function(m){ m.innerHTML += m.i
   function tt(ev,p){ try{ if(window.ttq) ttq.track(ev,p||{}); }catch(e){} }
   function prod(v){ return {value:v,currency:'BRL',content_type:'product',contents:[{content_id:'sabores-air-fryer-200',content_name:'Sabores na Air Fryer - 200 Receitas',quantity:1,price:v}]}; }
   // Ativação manual do evento de compra: só dispara abrindo o site com ?ativar_compra=1
-  if(/[?&]ativar_compra=1/.test(location.search)){ tt('CompletePayment',prod(29.90)); }
+  if(/[?&]ativar_compra=1/.test(location.search)){ tt('CompletePayment',prod(12.90)); }
   // ViewContent: quando a oferta aparece na tela (uma vez)
   var of=document.getElementById('oferta'), vc=false;
   if(of && 'IntersectionObserver' in window){
-    new IntersectionObserver(function(en,o){ en.forEach(function(x){ if(x.isIntersecting && !vc){ vc=true; tt('ViewContent',prod(29.90)); o.disconnect(); } }); },{threshold:0.3}).observe(of);
+    new IntersectionObserver(function(en,o){ en.forEach(function(x){ if(x.isIntersecting && !vc){ vc=true; tt('ViewContent',prod(12.90)); o.disconnect(); } }); },{threshold:0.3}).observe(of);
   }
   // ClickButton: botões verdes que levam à oferta
   document.querySelectorAll('a[href="#oferta"]').forEach(function(a){
@@ -1367,7 +1367,7 @@ document.querySelectorAll('.fb-marquee').forEach(function(m){ m.innerHTML += m.i
   // AddToCart + InitiateCheckout: botões que vão para a Cakto
   document.querySelectorAll('a[href*="pay.cakto.com.br"]').forEach(function(a){
     a.addEventListener('click',function(){
-      var p=prod(a.classList.contains('exit-cta')?22.90:29.90);
+      var p=prod(a.classList.contains('exit-cta')?9.90:12.90);
       tt('AddToCart',p); tt('InitiateCheckout',p);
     });
   });
