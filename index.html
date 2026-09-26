@@ -206,7 +206,13 @@ a{text-decoration:none;color:inherit}
 .wpp .section-head{margin-bottom:34px}
 .wpp .section-head h2{color:var(--oliva-dark);font-size:30px;line-height:1.28}
 @media(max-width:768px){.wpp .section-head h2{font-size:24px}}
-.wpp .slide{background:#ece5dd;aspect-ratio:2/3}
+.wpp .slide{background:#ece5dd;aspect-ratio:2/3;border-radius:14px;overflow:hidden}
+.wpp .slide img{object-fit:contain}
+.wpp .carousel{max-width:min(400px,calc((100svh - 150px)*2/3))!important;padding-bottom:30px;box-shadow:none;border-radius:14px 14px 0 0}
+.wpp .car-dots{bottom:8px}
+.wpp .car-dots button{background:rgba(59,66,32,.28)}
+.wpp .car-arrow{top:calc(50% - 15px);width:34px;height:34px;font-size:24px;background:rgba(255,253,232,.7)}
+.wpp .car-arrow.prev{left:6px}.wpp .car-arrow.next{right:6px}
 
 /* ===== Isso te parece familiar? (seção 3) ===== */
 .familiar{background:#6c724f;color:#fff;text-align:center}
